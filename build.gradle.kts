@@ -1,8 +1,3 @@
-val ktor_version: String by project
-val kotlin_version: String by project
-val logback_version: String by project
-val kotlinx_coroutines_version: String by project
-
 plugins {
     kotlin("jvm") version "2.1.10"
     id("io.ktor.plugin") version "3.0.3"
@@ -21,6 +16,11 @@ application {
 repositories {
     mavenCentral()
 }
+
+val ktor_version = "3.0.3"
+val kotlinx_coroutines_version = "1.10.1"
+val logback_version = "1.5.16"
+val kotlin_version = "2.1.10"
 
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version")
