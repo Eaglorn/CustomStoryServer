@@ -8,7 +8,7 @@ group = "ru.eaglorn"
 version = "0.0.1"
 
 application {
-    mainClass.set("io.ktor.server.netty.EngineMain")
+    mainClass.set("ru.eaglorn.ApplicationKt")
 
     val isDevelopment: Boolean = project.ext.has("development")
     applicationDefaultJvmArgs = listOf("-Dio.ktor.development=$isDevelopment")
@@ -31,7 +31,6 @@ dependencies {
     implementation("io.ktor:ktor-network:$ktorVersion")
     implementation("io.ktor:ktor-network-tls:$ktorVersion")
     implementation("ch.qos.logback:logback-classic:$logbackVersion")
-    implementation("com.google.protobuf:protobuf-kotlin:$protobufVersion")
     implementation("com.google.protobuf:protobuf-java:$protobufVersion")
     implementation("com.github.luben:zstd-jni:$zstdVersion")
 }
@@ -39,17 +38,6 @@ dependencies {
 protobuf {
     protoc {
         artifact = "com.google.protobuf:protoc:$protobufVersion"
-    }
-}
-
-sourceSets {
-    main {
-        proto {
-            srcDir("src/main/proto")
-        }
-        java {
-            srcDir("build/generated/source/proto/main/java")
-        }
     }
 }
 

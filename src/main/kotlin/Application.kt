@@ -12,8 +12,23 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import ru.eaglorn.Message.ChatMessage
+import ru.eaglorn.Message.Wrapper
+import ru.eaglorn.Utils.ZstdHelper
 
-fun main(args: Array<String>) {
+fun processMessage(data: ByteArray) {
+    val wrapper = Wrapper.parseFrom(data)
+
+    when (val payload = wrapper.payloadCase) {
+        Wrapper.PayloadCase.CHATMESSAGE -> handleUser(wrapper.chatMessage)
+        else -> throw IllegalStateException("Unknown type: $payload")
+    }
+}
+
+fun handleUser (wrapper: ChatMessage) {
+    println("Received: ${wrapper.name}: ${wrapper.message}")
+}
+
+fun main() {
     runBlocking {
         val selectorManager = SelectorManager(Dispatchers.IO)
         val serverSocket = aSocket(selectorManager).tcp().bind("127.0.0.1", 9002)
@@ -30,8 +45,7 @@ fun main(args: Array<String>) {
                     .setMessage("Please enter your name")
                     .build()
 
-                val compressedWelcome = Zstd.compress(welcomeMessage.toByteArray())
-                sendChannel.writeFully(compressedWelcome)
+                sendChannel.writeFully(ZstdHelper.compress(welcomeMessage.toByteArray()))
 
                 try {
                     while (true) {
@@ -39,20 +53,12 @@ fun main(args: Array<String>) {
                         val compressedData = ByteArray(size)
                         receiveChannel.readFully(compressedData)
 
-                        val decompressedData = Zstd.decompress(compressedData, 1024)
-                        val receivedMessage = ChatMessage.parseFrom(decompressedData)
+                        val decompressedData = ZstdHelper.decompress(compressedData)
 
-                        println("Received: ${receivedMessage.name}: ${receivedMessage.message}")
-
-                        val responseMessage = ChatMessage.newBuilder()
-                            .setName("Server")
-                            .setMessage("Hello, ${receivedMessage.name}!")
-                            .build()
-
-                        val compressedResponse = Zstd.compress(responseMessage.toByteArray())
-                        sendChannel.writeFully(compressedResponse)
+                        processMessage(decompressedData)
                     }
                 } catch (e: Throwable) {
+                    println(e.message)
                     socket.close()
                 }
             }
