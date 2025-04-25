@@ -1,6 +1,7 @@
 plugins {
     kotlin("jvm") version "2.1.10"
     id("io.ktor.plugin") version "3.0.3"
+    id("com.google.protobuf") version "0.9.5"
 }
 
 group = "ru.eaglorn"
@@ -17,17 +18,39 @@ repositories {
     mavenCentral()
 }
 
-val ktor_version = "3.0.3"
-val kotlinx_coroutines_version = "1.10.1"
-val logback_version = "1.5.16"
-val kotlin_version = "2.1.10"
+val ktorVersion = "3.0.3"
+val kotlinxCoroutinesVersion = "1.10.1"
+val logbackVersion = "1.5.16"
+val kotlinVersion = "2.1.10"
+val protobufVersion = "4.30.2"
+val zstdVersion = "1.5.7-2"
 
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${kotlinx_coroutines_version}")
-    implementation("io.ktor:ktor-network:${ktor_version}")
-    implementation("io.ktor:ktor-network-tls:${ktor_version}")
-    implementation("ch.qos.logback:logback-classic:$logback_version")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinxCoroutinesVersion")
+    implementation("io.ktor:ktor-network:$ktorVersion")
+    implementation("io.ktor:ktor-network-tls:$ktorVersion")
+    implementation("ch.qos.logback:logback-classic:$logbackVersion")
+    implementation("com.google.protobuf:protobuf-kotlin:$protobufVersion")
+    implementation("com.google.protobuf:protobuf-java:$protobufVersion")
+    implementation("com.github.luben:zstd-jni:$zstdVersion")
+}
+
+protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:$protobufVersion"
+    }
+}
+
+sourceSets {
+    main {
+        proto {
+            srcDir("src/main/proto")
+        }
+        java {
+            srcDir("build/generated/source/proto/main/java")
+        }
+    }
 }
 
 tasks.test {
