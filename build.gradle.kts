@@ -6,7 +6,7 @@ plugins {
     id("io.spring.dependency-management") version "1.1.7"
 }
 
-group = "ru.eaglorn"
+group = "ru.eaglorn.cs"
 version = "0.0.1"
 
 application {
@@ -30,6 +30,7 @@ val springVersion = "3.4.4"
 val eclipseCollections = "11.1.0"
 
 dependencies {
+    implementation(project(":CustomStoryLibrary"))
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinxCoroutinesVersion")
     implementation("io.ktor:ktor-network:$ktorVersion")

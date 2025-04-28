@@ -2,3 +2,5 @@
 2025-04-28 15:26:49,678 INFO r.e.c.ApplicationKt [main] No active profile set, falling back to 1 default profile: "default"
 2025-04-28 17:21:01,250 INFO r.e.c.ServerApplicationKt [main] Starting ServerApplicationKt using Java 23.0.2 with PID 9540 (C:\Users\averin\Documents\GitHub\CustomStoryServer\build\classes\kotlin\main started by averin in C:\Users\averin\Documents\GitHub\CustomStoryServer)
 2025-04-28 17:21:01,266 INFO r.e.c.ServerApplicationKt [main] No active profile set, falling back to 1 default profile: "default"
+2025-04-28 18:23:46,330 INFO r.e.c.ServerApplicationKt [main] Starting ServerApplicationKt using Java 23.0.2 with PID 3120 (C:\Users\eaglorn\Documents\GitHub\CustomStoryServer\build\classes\kotlin\main started by eaglorn in C:\Users\eaglorn\Documents\GitHub\CustomStoryServer)
+2025-04-28 18:23:46,333 INFO r.e.c.ServerApplicationKt [main] No active profile set, falling back to 1 default profile: "default"
